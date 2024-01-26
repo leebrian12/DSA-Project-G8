@@ -29,13 +29,17 @@ class Admin
 
 			switch(choice)
 			{
-				case 1:
+				case 1: addPackage();
+						break;
 
-				case 2:
+				case 2: viewPackage();
+						break;
 
-				case 3:	
+				case 3:	editPackage();
+						break;
 
-				case 4:
+				case 4: deletePackage();
+					    break;
 
 				case 5: system("CLS");
                     	break;
@@ -51,6 +55,82 @@ class Admin
 		} while (choice != 5);
 			
 	}
+
+	void addPackage()
+	{
+
+	}
+
+	void viewPackage()
+	{
+
+	}
+
+	void editPackage()
+	{
+
+	}
+
+	void deletePackage()
+	{
+
+	}
+
+
+};
+
+class User
+{
+	public:
+	void UserHomepage()
+	{
+		int choice;
+
+		do
+		{
+			system("CLS");
+			cout << "\t\t\t_____________________________________________________________\n\n\n";
+			cout << "\t\t\t++++++++++++++++++++++    USER SITE   ++++++++++++++++++++++++\n\n\n";
+			cout << "\t\t\t_______________________    WELCOME USER   _______________________\n\n";
+			// cout << "\t\t\t|    Add new package      ( Choose '1' )                     |\n";     
+			// cout << "\t\t\t|    View packages        ( Choose '2' )                     |\n";
+			// cout << "\t\t\t|    Edit package    	  ( Choose '3' )                     |\n";
+			// cout << "\t\t\t|    Delete package    	  ( Choose '4' )                     |\n";
+			cout << "\t\t\t|    Back to Home Page    ( Choose '5' )                     |\n";
+			cout << "\t\t\t|    Exit                 ( Choose '6' )                     |\n";
+			cout << "\n\t\t        Please enter your choice : ";
+			cin >> choice;
+			cout << endl;
+
+			switch(choice)
+			{
+				// case 1: addPackage();
+				// 		break;
+
+				// case 2: viewPackage();
+				// 		break;
+
+				// case 3:	editPackage();
+				// 		break;
+
+				// case 4: deletePackage();
+				// 	    break;
+
+				case 5: system("CLS");
+                    	break;
+				
+				case 6: cout << "\t\t\tExiting the Travel Agency System. Thank you for using our services!\n\n";
+                        exit(0);
+
+				default: system("CLS");
+                         cout << "\n\t\t\t\t   Please select the correct options given!\n\n" << endl;
+
+			}
+
+		} while (choice != 5);
+			
+	}
+
 };
 
 class LogRegPage
@@ -58,6 +138,7 @@ class LogRegPage
 	private:
 		
 	Admin a;
+	User u;
 	
     void displayHomePage() 
 	{
@@ -205,11 +286,11 @@ class LogRegPage
 
         ofstream f1;
         f1.open("AdminAcc.txt", ios::app);
-        f1 << Rusername << Rpassword << endl;
+        f1 << Rusername << endl << Rpassword << endl;
         f1.close();
 
         system("CLS");
-        cout << "\nRegistration successfully!\n";
+		cout << "\n\n\t\t\t\t\tRegistration sucessfully! \n";
     }
 
     void userMenu() 
@@ -299,6 +380,7 @@ class LogRegPage
 	    if (count == 1)
 	    {
 	        cout << username << "\nLogin Successfully!\n\n\n";
+			u.UserHomepage();
 	    }
     }
 
