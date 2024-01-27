@@ -230,7 +230,8 @@ class Admin
 	}
 
 	//binary search
-	void performPackageSearch(const vector<string> &packageDetailsList) {
+	void performPackageSearch(const vector<string> &packageDetailsList) 
+	{
 		string target;
 		cout << "\t\t\tInput the package name to search : ";
 		cin.ignore(); // Ignore the newline character left in the input buffer
@@ -485,7 +486,7 @@ class LogRegPage
 	            cout << "\t\t\tPress '1' to retry or any other number to go back to the Admin Menu: ";
 	
 	            int retryChoice;
-	            cin >> retryChoice;
+	            cin >> retryChoice; 
 	            system("CLS");
 	
 	            if (retryChoice != 1)
