@@ -1,4 +1,4 @@
-Pulau Langkawi ,299.000000,3,2
+Pulau Langkawi,299.000000,3,2
 Abc,999.000000,3,2
 Genting Highland,288.000000,4,3
 B,222.000000,2,1

@@ -194,18 +194,27 @@ class Admin
 
 			packageFile.close();
 			cout << "\n";
-			int choice;
+			char choice;
 
-			// Prompt user for search or back to main
 			do {
-				cout << "Enter '1' to search for a package by name, '0' to go back to main: ";
+				cout << "\t\t\t_____________________________________________________________\n\n\n";
+				cout << "\t\t\t++++++++++++++++++++++    SEARCH PACKAGE   ++++++++++++++++++++++++\n\n\n";
+				cout << "\t\t\t_______________________    WELCOME ADMIN   _______________________\n\n";
+				cout << "\t\t\t|    Search package      ( Choose '1' )                     |\n";
+				cout << "\t\t\t|    Back to mainpage    ( Choose '2' )                     |\n"<<endl<<endl;
+				cout<<"\t\t\tEnter your choice : ";
 				cin >> choice;
 
-				if (choice == 1) {
-					// Perform binary search
-					performPackageSearch(packageDetailsList);
+				switch(choice)
+				{
+					case '1': performPackageSearch(packageDetailsList);cout<<endl<<endl;
+							break;
+					case '2': cout << "\t\t\tBack to main page!\n\n";
+							break;
+					default: system("CLS");
+							cout << "\n\t\t\t\t   Please select the correct options given!\n\n" << endl;
 				}
-			} while (choice == 1); 
+			} while (choice != '2');
 		}
 		system("pause");
 	}
@@ -223,7 +232,7 @@ class Admin
 	//binary search
 	void performPackageSearch(const vector<string> &packageDetailsList) {
 		string target;
-		cout << "Input the package name to search: ";
+		cout << "\t\t\tInput the package name to search : ";
 		cin.ignore(); // Ignore the newline character left in the input buffer
 		getline(cin, target);
 
@@ -235,9 +244,11 @@ class Admin
 
 		// Output result
 		if (position != -1) {
-			cout << "Package found at position " << position << endl;
+			cout << "\t\t\tPackage found at position " << (position+1)<<" : " << endl;
+			displayPackageDetails(packageDetailsList[position]);
+			cout<<endl<<endl;
 		} else {
-			cout << "Package not found" << endl;
+			cout << "\t\t\tPackage not found" << endl;
 		}
 	}
 
@@ -272,6 +283,23 @@ class Admin
 		string packageName;
 		getline(ss, packageName, ',');
 		return packageName;
+	}
+
+	void displayPackageDetails(const string &packageDetails) {
+		stringstream ss(packageDetails);
+		string packageName, priceStr, daysStr, nightsStr;
+
+		getline(ss, packageName, ',');
+		getline(ss, priceStr, ',');
+		getline(ss, daysStr, ',');
+		getline(ss, nightsStr, ',');
+
+		double price = stod(priceStr);
+		int days = stoi(daysStr);
+		int nights = stoi(nightsStr);
+
+		cout << fixed << setprecision(2);
+		cout << "\t\t\t| " << setw(20) << left << packageName << "  | " << setw(2) << right << "RM" << price << " | " << setw(2) << days << " days, " << setw(2) << nights << " nights |\n";
 	}
 
 
