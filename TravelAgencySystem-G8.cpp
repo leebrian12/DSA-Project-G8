@@ -285,7 +285,7 @@ class User
 
 	void UserHomepage()
 	{
-		Admin ad;
+		Admin ad; 
 		int choice;
 
 		do
