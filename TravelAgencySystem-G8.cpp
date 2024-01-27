@@ -1,8 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <queue>
-#include <string>
 #include <iomanip>
+#include <string>
+#include <algorithm>
 
 using namespace std;
 
@@ -190,10 +191,22 @@ class Admin
 				cout << fixed << setprecision(2);
 				cout << "\t\t\t| " << setw(20) << left << packageName << "  | " << setw(2) << right << "RM" << price << " | " << setw(2) << days << " days, " << setw(2) << nights << " nights |\n";
        		 }
-    	}	
 
-		packageFile.close();
-		cout << "\n";
+			packageFile.close();
+			cout << "\n";
+			int choice;
+
+			// Prompt user for search or back to main
+			do {
+				cout << "Enter '1' to search for a package by name, '0' to go back to main: ";
+				cin >> choice;
+
+				if (choice == 1) {
+					// Perform binary search
+					performPackageSearch(packageDetailsList);
+				}
+			} while (choice == 1); 
+		}
 		system("pause");
 	}
 
@@ -207,14 +220,71 @@ class Admin
 
 	}
 
+	//binary search
+	void performPackageSearch(const vector<string> &packageDetailsList) {
+		string target;
+		cout << "Input the package name to search: ";
+		cin.ignore(); // Ignore the newline character left in the input buffer
+		getline(cin, target);
+
+		// Convert target to lowercase for case-insensitive search
+		transform(target.begin(), target.end(), target.begin(), ::tolower);
+
+		// Perform binary search
+		int position = binarySearchByName(packageDetailsList, target);
+
+		// Output result
+		if (position != -1) {
+			cout << "Package found at position " << position << endl;
+		} else {
+			cout << "Package not found" << endl;
+		}
+	}
+
+	int binarySearchByName(const vector<string> &packageDetailsList, const string &target) {
+		int first = 0;
+		int last = packageDetailsList.size() - 1;
+		int found = -1; // Initialize found position to -1 (not found)
+
+		while (first <= last) {
+			int mid = (first + last) / 2;
+			string packageName = getPackageName(packageDetailsList[mid]);
+
+			// Convert package name to lowercase for case-insensitive search
+			transform(packageName.begin(), packageName.end(), packageName.begin(), ::tolower);
+
+
+			if (packageName == target) {
+				found = mid;
+				break;
+			} else if (packageName < target) {
+				first = mid + 1;
+			} else {
+				last = mid - 1;
+			}
+		}
+
+		return found;
+	}
+
+	string getPackageName(const string &packageDetails) {
+		stringstream ss(packageDetails);
+		string packageName;
+		getline(ss, packageName, ',');
+		return packageName;
+	}
+
 
 };
 
 class User
 {
 	public:
+
+
 	void UserHomepage()
 	{
+		Admin ad;
 		int choice;
 
 		do
@@ -223,8 +293,8 @@ class User
 			cout << "\t\t\t_____________________________________________________________\n\n\n";
 			cout << "\t\t\t++++++++++++++++++++++    USER SITE   ++++++++++++++++++++++++\n\n\n";
 			cout << "\t\t\t_______________________    WELCOME USER   _______________________\n\n";
-			// cout << "\t\t\t|    Add new package      ( Choose '1' )                     |\n";     
-			// cout << "\t\t\t|    View packages        ( Choose '2' )                     |\n";
+			cout << "\t\t\t|    Add to cart          ( Choose '1' )                     |\n";     
+			cout << "\t\t\t|    View packages        ( Choose '2' )                     |\n";
 			// cout << "\t\t\t|    Edit package    	  ( Choose '3' )                     |\n";
 			// cout << "\t\t\t|    Delete package    	  ( Choose '4' )                     |\n";
 			cout << "\t\t\t|    Back to Home Page    ( Choose '5' )                     |\n";
@@ -238,8 +308,8 @@ class User
 				// case 1: addPackage();
 				// 		break;
 
-				// case 2: viewPackage();
-				// 		break;
+				case 2: ad.viewPackage();
+						break;
 
 				// case 3:	editPackage();
 				// 		break;
@@ -261,6 +331,9 @@ class User
 		} while (choice != 5);
 			
 	}
+
+	
+	
 
 };
 
