@@ -1,11 +1,16 @@
 #include <iostream>
 #include <fstream>
+#include <queue>
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
 class Admin
 {
+	private:
+    queue<string> packages;
+    
 	public:
 	void AdminHomepage()
 	{
@@ -58,12 +63,112 @@ class Admin
 
 	void addPackage()
 	{
+		string packageName;
+		double price;
+    	int days, nights;
+    	
+		cin.ignore();
+        system("CLS");
+        cout << "\t\t\t_______________________________________________________________\n\n\n";
+        cout << "\t\t\t+++++++++++++++++++++    ADD NEW PACKAGE    ++++++++++++++++++++\n\n\n";
+        cout << "\t\t\t________________________________________________________________\n\n";
+        cout << "\t\t\t Enter Package Name : ";
+		getline(cin,packageName);
+		
+		cout << "\t\t\t Enter Package Price  : ";
+	    cin >> price;
+	
+	    cout << "\t\t\t Enter Number of Days : ";
+	    cin >> days;
+	
+	    cout << "\t\t\t Enter Number of Nights: ";
+	    cin >> nights;
+		
+    	string packageDetails = packageName + "," + to_string(price) + "," + to_string(days) + "," + to_string(nights);
+    	
+    	packages.push(packageDetails);
 
+
+        // Append the new package to the text file without overwriting existing data
+        ofstream packageFile("Packages.txt", ios::app);
+        packageFile << packageDetails << endl;
+        packageFile.close();
+
+        cout << "\nPackage added successfully!\n";
+    }
+
+    void updatePackageFile()
+	{
+	    ofstream packageFile("Packages.txt");
+	    queue<string> tempQueue = packages;
+	
+	    while (!tempQueue.empty())
+	    {
+	        packageFile << tempQueue.front() << endl;
+	        tempQueue.pop();
+	    }
+	
+	    packageFile.close();
+	}
+    
+    void loadPackagesFromFile()
+	{
+	    ifstream packageFile("Packages.txt");
+	    if (packageFile.is_open())
+	    {
+	        string packageDetails;
+	        while (getline(packageFile, packageDetails))
+	        {
+	            packages.push(packageDetails);
+	        }
+	        packageFile.close();
+	    }
 	}
 
 	void viewPackage()
 	{
+		system("CLS");
+		cout << "\t\t\t_______________________________________________________________\n\n\n";
+		cout << "\t\t\t++++++++++++++++++++    VIEW PACKAGES    +++++++++++++++++++++++\n\n\n";
+		cout << "\t\t\t________________________________________________________________\n\n";
 
+		ifstream packageFile("Packages.txt");
+
+		if (!packageFile.is_open())
+		{
+			cout << "\t\t\tNo packages available.\n";
+		}
+		else
+		{
+			string packageDetails;
+			cout << "\t\t\tList of Packages:\n\n";
+
+			while (getline(packageFile, packageDetails))
+			{
+				// Split package details using a delimiter (assuming comma in this case)
+				stringstream ss(packageDetails);
+				string packageName, priceStr, daysStr, nightsStr;
+
+				getline(ss, packageName, ',');
+				getline(ss, priceStr, ',');
+				getline(ss, daysStr, ',');
+				getline(ss, nightsStr, ',');
+
+				// Convert string values to their respective types
+				double price = stod(priceStr);
+				int days = stoi(daysStr);
+				int nights = stoi(nightsStr);
+
+				// Display the package information in a formatted manner1
+				cout << fixed << setprecision(2);
+				cout << "\t\t\t| " << setw(20) << left << packageName << "  | " << setw(2) << right << "RM" << price << " | " << setw(2) << days << " days, " << setw(2) << nights << " nights |\n";
+			}
+
+		}
+
+		packageFile.close();
+		cout << "\n";
+		system("pause");
 	}
 
 	void editPackage()
