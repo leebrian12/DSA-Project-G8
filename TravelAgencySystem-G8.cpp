@@ -221,7 +221,8 @@ class Admin
 	}
 
 	//binary search
-	void performPackageSearch(const vector<string> &packageDetailsList) {
+	void performPackageSearch(const vector<string> &packageDetailsList) 
+	{
 		string target;
 		cout << "Input the package name to search: ";
 		cin.ignore(); // Ignore the newline character left in the input buffer
