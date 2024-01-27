@@ -13,7 +13,7 @@ class Admin
     queue<string> packages;
     
 	public:
-	void AdminHomepage()
+	void AdminHomepage() 
 	{
 		int choice;
 
@@ -122,7 +122,7 @@ class Admin
 	        {
 	            packages.push(packageDetails);
 	        }
-			
+
 	        packageFile.close();
 	    }
 	}
