@@ -61,7 +61,7 @@ class Admin
 			
 	}
 
-	void addPackage()
+	void addPackage()  // Queue algorithm
 	{
 		string packageName;
 		double price;
@@ -121,8 +121,29 @@ class Admin
 	        {
 	            packages.push(packageDetails);
 	        }
+			
 	        packageFile.close();
 	    }
+	}
+
+	void selectionSort(vector<string>& arr)  // Selection Sort algorithm ( Sort with alphabetical )
+	{
+		int n = arr.size();
+		for (int i = 0; i < n - 1; i++) 
+		{
+			int minIndex = i;
+			for (int j = i + 1; j < n; j++) 
+			{
+				if (arr[j] < arr[minIndex]) 
+				{
+					minIndex = j;
+				}
+			}
+			if (minIndex != i) 
+			{
+				swap(arr[i], arr[minIndex]);
+			}
+		}
 	}
 
 	void viewPackage()
@@ -134,18 +155,26 @@ class Admin
 
 		ifstream packageFile("Packages.txt");
 
-		if (!packageFile.is_open())
+		if (!packageFile.is_open()) 
 		{
-			cout << "\t\t\tNo packages available.\n";
-		}
-		else
+        	cout << "\t\t\tNo packages available.\n";
+    	} 
+		else 
 		{
+        	vector<string> packageDetailsList;
 			string packageDetails;
+
+        	while (getline(packageFile, packageDetails)) 
+			{
+            	packageDetailsList.push_back(packageDetails);
+        	}
+
+			selectionSort(packageDetailsList);
+
 			cout << "\t\t\tList of Packages:\n\n";
 
-			while (getline(packageFile, packageDetails))
+        	for (const auto &packageDetails : packageDetailsList) 
 			{
-				// Split package details using a delimiter (assuming comma in this case)
 				stringstream ss(packageDetails);
 				string packageName, priceStr, daysStr, nightsStr;
 
@@ -154,17 +183,14 @@ class Admin
 				getline(ss, daysStr, ',');
 				getline(ss, nightsStr, ',');
 
-				// Convert string values to their respective types
 				double price = stod(priceStr);
 				int days = stoi(daysStr);
 				int nights = stoi(nightsStr);
 
-				// Display the package information in a formatted manner1
 				cout << fixed << setprecision(2);
 				cout << "\t\t\t| " << setw(20) << left << packageName << "  | " << setw(2) << right << "RM" << price << " | " << setw(2) << days << " days, " << setw(2) << nights << " nights |\n";
-			}
-
-		}
+       		 }
+    	}	
 
 		packageFile.close();
 		cout << "\n";
