@@ -384,7 +384,7 @@ class LogRegPage
 	            cout << "\t\t\tPress '1' to retry or any other number to go back to the Admin Menu: ";
 	
 	            int retryChoice;
-	            cin >> retryChoice;
+	            cin >> retryChoice; 
 	            system("CLS");
 	
 	            if (retryChoice != 1)
