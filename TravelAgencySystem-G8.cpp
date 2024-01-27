@@ -20,7 +20,7 @@ class Admin
 		do
 		{
 			system("CLS");
-			cout << "\t\t\t_____________________________________________________________\n\n\n";
+			cout << "\t\t\t__________________________________________________________________\n\n\n";
 			cout << "\t\t\t++++++++++++++++++++++    ADMIN SITE   ++++++++++++++++++++++++\n\n\n";
 			cout << "\t\t\t_______________________    WELCOME ADMIN   _______________________\n\n";
 			cout << "\t\t\t|    Add new package      ( Choose '1' )                     |\n";
@@ -174,8 +174,9 @@ class Admin
 
 			cout << "\t\t\tList of Packages:\n\n";
 
-        	for (const auto &packageDetails : packageDetailsList) 
+        	for (size_t i = 0; i < packageDetailsList.size(); ++i)
 			{
+				string packageDetails = packageDetailsList[i];
 				stringstream ss(packageDetails);
 				string packageName, priceStr, daysStr, nightsStr;
 
@@ -189,27 +190,28 @@ class Admin
 				int nights = stoi(nightsStr);
 
 				cout << fixed << setprecision(2);
-				cout << "\t\t\t| " << setw(20) << left << packageName << "  | " << setw(2) << right << "RM" << price << " | " << setw(2) << days << " days, " << setw(2) << nights << " nights |\n";
-       		 }
+				cout << "\t\t\t| " << setw(3) << right << i + 1 << ". " << setw(20) << left << packageName << "  | " << setw(2) << right << "RM" << setw(10) << left << price << " | " << setw(2) << days << " days, " << setw(2) << nights << " nights |\n";
+			}
 
 			packageFile.close();
 			cout << "\n";
+
 			char choice;
 
 			do {
-				cout << "\t\t\t_____________________________________________________________\n\n\n";
+				cout << "\t\t\t___________________________________________________________________\n\n\n";
 				cout << "\t\t\t++++++++++++++++++++++    SEARCH PACKAGE   ++++++++++++++++++++++++\n\n\n";
-				cout << "\t\t\t_______________________    WELCOME ADMIN   _______________________\n\n";
-				cout << "\t\t\t|    Search package      ( Choose '1' )                     |\n";
-				cout << "\t\t\t|    Back to mainpage    ( Choose '2' )                     |\n"<<endl<<endl;
-				cout<<"\t\t\tEnter your choice : ";
+				cout << "\t\t\t____________________________________________________________________\n\n";
+				cout << "\t\t\t|    Search package       ( Choose '1' )                     |\n";
+				cout << "\t\t\t|    Back to Main Page    ( Choose '2' )                     |\n"<<endl<<endl;
+				cout<<"\t\t\t Please enter your choice : ";
 				cin >> choice;
 
 				switch(choice)
 				{
 					case '1': performPackageSearch(packageDetailsList);cout<<endl<<endl;
 							break;
-					case '2': cout << "\t\t\tBack to main page!\n\n";
+					case '2': cout << "\t\t\t Returning to Main Page....\n\n";
 							break;
 					default: system("CLS");
 							cout << "\n\t\t\t\t   Please select the correct options given!\n\n" << endl;
@@ -229,12 +231,11 @@ class Admin
 
 	}
 
-	//binary search
-	void performPackageSearch(const vector<string> &packageDetailsList) 
+	void performPackageSearch(const vector<string> &packageDetailsList)  // Binary Search Algorithm
 	{
 		string target;
-		cout << "\t\t\tInput the package name to search : ";
-		cin.ignore(); // Ignore the newline character left in the input buffer
+		cout << "\t\t\t Input the package name to search : ";
+		cin.ignore(); 
 		getline(cin, target);
 
 		// Convert target to lowercase for case-insensitive search
@@ -244,21 +245,26 @@ class Admin
 		int position = binarySearchByName(packageDetailsList, target);
 
 		// Output result
-		if (position != -1) {
-			cout << "\t\t\tPackage found at position " << (position+1)<<" : " << endl;
+		if (position != -1) 
+		{
+			cout << "\n\t\t\tPackage found at position " << (position+1)<<" : " << endl;
 			displayPackageDetails(packageDetailsList[position]);
 			cout<<endl<<endl;
-		} else {
+		} 
+		else 
+		{
 			cout << "\t\t\tPackage not found" << endl;
 		}
 	}
 
-	int binarySearchByName(const vector<string> &packageDetailsList, const string &target) {
+	int binarySearchByName(const vector<string> &packageDetailsList, const string &target) 
+	{
 		int first = 0;
 		int last = packageDetailsList.size() - 1;
 		int found = -1; // Initialize found position to -1 (not found)
 
-		while (first <= last) {
+		while (first <= last) 
+		{
 			int mid = (first + last) / 2;
 			string packageName = getPackageName(packageDetailsList[mid]);
 
@@ -266,12 +272,17 @@ class Admin
 			transform(packageName.begin(), packageName.end(), packageName.begin(), ::tolower);
 
 
-			if (packageName == target) {
+			if (packageName == target) 
+			{
 				found = mid;
 				break;
-			} else if (packageName < target) {
+			} 
+			else if (packageName < target) 
+			{
 				first = mid + 1;
-			} else {
+			} 
+			else 
+			{
 				last = mid - 1;
 			}
 		}
@@ -279,14 +290,16 @@ class Admin
 		return found;
 	}
 
-	string getPackageName(const string &packageDetails) {
+	string getPackageName(const string &packageDetails) 
+	{
 		stringstream ss(packageDetails);
 		string packageName;
 		getline(ss, packageName, ',');
 		return packageName;
 	}
 
-	void displayPackageDetails(const string &packageDetails) {
+	void displayPackageDetails(const string &packageDetails) 
+	{
 		stringstream ss(packageDetails);
 		string packageName, priceStr, daysStr, nightsStr;
 
@@ -324,18 +337,17 @@ class User
 			cout << "\t\t\t_______________________    WELCOME USER   _______________________\n\n";
 			cout << "\t\t\t|    Add to cart          ( Choose '1' )                     |\n";     
 			cout << "\t\t\t|    View packages        ( Choose '2' )                     |\n";
-			// cout << "\t\t\t|    Edit package    	  ( Choose '3' )                     |\n";
-			// cout << "\t\t\t|    Delete package    	  ( Choose '4' )                     |\n";
-			cout << "\t\t\t|    Back to Home Page    ( Choose '5' )                     |\n";
-			cout << "\t\t\t|    Exit                 ( Choose '6' )                     |\n";
+			cout << "\t\t\t|    Edit cart    	  ( Choose '3' )                     |\n";
+			cout << "\t\t\t|    Back to Home Page    ( Choose '4' )                     |\n";
+			cout << "\t\t\t|    Exit                 ( Choose '5' )                     |\n";
 			cout << "\n\t\t        Please enter your choice : ";
 			cin >> choice;
 			cout << endl;
 
 			switch(choice)
 			{
-				// case 1: addPackage();
-				// 		break;
+				case 1: addPackagetoCart();
+						break;
 
 				case 2: ad.viewPackage();
 						break;
@@ -343,13 +355,10 @@ class User
 				// case 3:	editPackage();
 				// 		break;
 
-				// case 4: deletePackage();
-				// 	    break; 
-
-				case 5: system("CLS");
+				case 4: system("CLS");
                     	break;
 				
-				case 6: cout << "\t\t\tExiting the Travel Agency System. Thank you for using our services!\n\n";
+				case 5: cout << "\t\t\tExiting the Travel Agency System. Thank you for using our services!\n\n";
                         exit(0);
 
 				default: system("CLS");
@@ -357,12 +366,101 @@ class User
 
 			}
 
-		} while (choice != 5);
+		} while (choice != 4);
 			
 	}
 
-	
-	
+	void addPackagetoCart()
+	{
+		ifstream packageFile("Packages.txt");
+
+		if (!packageFile.is_open())
+		{
+			cout << "\t\t\tNo packages available.\n";
+		}
+		else
+		{
+			vector<string> packageDetailsList;
+			string packageDetails;
+
+			while (getline(packageFile, packageDetails))
+			{
+				packageDetailsList.push_back(packageDetails);
+			}
+
+			packageFile.close();
+
+			system("CLS");
+			cout << "\t\t\t_______________________________________________________________\n\n\n";
+			cout << "\t\t\t+++++++++++++++++++++    ADD TO CART    ++++++++++++++++++++++++\n\n\n";
+			cout << "\t\t\t________________________________________________________________\n\n";
+
+			cout << "\t\t\tAvailable Packages:\n\n";
+
+			for (size_t i = 0; i < packageDetailsList.size(); ++i)
+			{
+				string packageDetails = packageDetailsList[i];
+				stringstream ss(packageDetails);
+				string packageName, priceStr, daysStr, nightsStr;
+
+				getline(ss, packageName, ',');
+				getline(ss, priceStr, ',');
+				getline(ss, daysStr, ',');
+				getline(ss, nightsStr, ',');
+
+				double price = stod(priceStr);
+				int days = stoi(daysStr);
+				int nights = stoi(nightsStr);
+
+				cout << fixed << setprecision(2);
+				cout << "\t\t\t| " << setw(3) << right << i + 1 << ". " << setw(20) << left << packageName << "  | " << setw(2) << right << "RM" << setw(10) << left << price << " | " << setw(2) << days << " days, " << setw(2) << nights << " nights |\n";
+			}
+
+			int packageNumber;
+        	bool validInput = false;
+
+			do
+			{
+				cout << "\n\t\t\tEnter the package number to add to your cart (0 to cancel): ";
+				cin >> packageNumber;
+
+				if (packageNumber >= 1 && packageNumber <= static_cast<int>(packageDetailsList.size()))
+				{
+					validInput = true;
+				}
+				else if (packageNumber == 0)
+				{
+					cout << "\n\t\t\tCanceled. Returning to User Menu...\n";
+					system("pause");
+					return;
+				}
+				else
+				{
+					cout << "\n\t\t\tInvalid package number. Please try again.\n";
+				}
+			} while (!validInput);
+
+			cout << "\n\t\t\tEnter the name of the file to store the selected package: ";
+			string fileName;
+			cin.ignore(); 
+			getline(cin, fileName);
+
+			ofstream outputFile(fileName);
+
+			if (outputFile.is_open())
+			{
+				outputFile << packageDetailsList[packageNumber - 1] << endl;
+				outputFile.close();
+				cout << "\n\t\t\tPackage added to the file successfully!\n";
+			}
+			else
+			{
+				cout << "\n\t\t\tError: Unable to open the file for writing.\n";
+			}
+
+			system("pause");
+		}
+	}
 
 };
 
