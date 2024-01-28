@@ -1,3 +1,4 @@
 Username: Test, Package chosen: Sabah Tour,1999.00,6,5
 Username: Lol, Package chosen: Pulau Ketam,399.00,4,3
-Username: Madeline, Package chosen: Genting Higlands,499.00,5,4
+Username: James, Package chosen: Sabah Tour,1999.00,6,5, Departure date: 2024-2-14
+Username: user, Package chosen: Genting Higlands,499.00,5,4, Departure date: 2024

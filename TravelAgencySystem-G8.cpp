@@ -326,6 +326,9 @@ class Admin
 
 class User
 {
+	private:
+	string loggedInUsername;
+
 	public:
 
 
@@ -380,159 +383,18 @@ class User
 			
 	}
 
-	void UviewCart()
+	void setLoggedInUsername(const string& username) 
 	{
-		system("CLS");
-		cout << "\t\t\t_______________________________________________________________\n\n\n";
-		cout << "\t\t\t++++++++++++++++++++    VIEW CART    ++++++++++++++++++++++++\n\n\n";
-		cout << "\t\t\t________________________________________________________________\n\n";
-
-		ifstream cartFile("Cart.txt");
-		if (!cartFile.is_open())
-		{
-			cout << "\t\t\tNo cart information available.\n";
-		}
-		else
-		{
-			string username;
-			cout << "\t\t\tEnter your username: ";
-			cin >> username;
-			bool found = false;
-
-			cout << "\t\t\tList of Packages in Your Cart:\n\n";
-
-			string line;
-			int count = 0;
-			while (getline(cartFile, line))
-			{
-				system("CLS");
-				cout << "\t\t\t_______________________________________________________________\n\n\n";
-				cout << "\t\t\t++++++++++++++++++++    VIEW CART    ++++++++++++++++++++++++\n\n\n";
-				cout << "\t\t\t________________________________________________________________\n\n";
-
-				// Check if the line contains the user's username
-				if (line.find("Username: " + username) != string::npos)
-				{
-					found = true;
-					count++;
-
-					// Extract the package details from the line
-					size_t pos = line.find("Package chosen: ");
-					if (pos != string::npos)
-					{
-						string packageDetails = line.substr(pos + 16); // Length of "Package chosen: "
-						stringstream ss(packageDetails);
-						string packageName, priceStr, daysStr, nightsStr;
-
-						getline(ss, packageName, ',');
-						getline(ss, priceStr, ',');
-						getline(ss, daysStr, ',');
-						getline(ss, nightsStr, ',');
-
-						double price = stod(priceStr);
-						int days = stoi(daysStr);
-						int nights = stoi(nightsStr);
-
-						cout << fixed << setprecision(2);
-						cout << "\t\t\t| " << setw(3) << right << count << ". " << setw(20) << left << packageName << "  | " << setw(2) << right << "RM" << setw(10) << left << price << " | " << setw(2) << days << " days, " << setw(2) << nights << " nights |\n";
-						cout << endl << endl;
-
-						int pc;
-						cartFile.close();
-						
-						do
-						{
-							cout << "\t\t\t|    Payment              ( Choose '1' )                     |\n";     
-							cout << "\t\t\t|    Delete Cart          ( Choose '2' )                     |\n";
-							cout << "\t\t\t|    Back to Main         ( Choose '3' )                     |\n"<<endl;
-
-							
-							cout<<"\t\t\tEnter your choose : ";
-							cin>>pc;
-
-							switch(pc)
-							{
-								case 1: pay(username, packageName, price, days, nights);
-										break;
-								
-								// case 2: cout << "\t\t\tExiting the Travel Agency System. Thank you for using our services!\n\n";
-								// 		exit(0);
-
-								default: system("CLS");
-										cout << "\n\t\t\t\t   Please select the correct options given!\n\n" << endl;
-							}
-
-						}while(pc == 3);
-					}
-				}
-			}
-
-			if (!found)
-			{
-				cout << "\t\t\tYou have not added anything to your cart.\n";
-			}
-
-
-
-			
-		}
-
-		system("pause");
-
-	}
-
-	void pay(const string& username, const string& packageName, double price, int days, int nights) {
-		system("CLS");
-		cout << "\t\t\t_______________________________________________________________\n\n\n";
-		cout << "\t\t\t++++++++++++++++++++    PAYMENT    ++++++++++++++++++++++++\n\n\n";
-		cout << "\t\t\t________________________________________________________________\n\n";
-
-		// Display receipt
-		cout << "\t\t\tUsername: " << username << endl;
-		cout << "\t\t\tPackage: " << packageName << endl;
-		cout << "\t\t\tPrice: RM" << price << endl;
-		cout << "\t\t\tDuration: " << days << " days, " << nights << " nights" << endl;
-
-		ifstream inFile("Cart.txt"); // Open Cart.txt for reading
-		ofstream tempFile("Temp.txt"); 
-
-		string line;
-		bool found = false; 
-
-
-		while (getline(inFile, line)) {
-			// Check if the line contains the user's username
-			if (line.find("Username: " + username) == string::npos) {
-				tempFile << line << endl; 
-			} else {
-				found = true;
-			}
-		}
-
-		inFile.close(); 
-		tempFile.close();
-
-		if (!found) {
-			cout << "Username not found in the cart." << endl;
-		} else {
-			// Remove the original Cart.txt file
-			if (remove("Cart.txt") != 0) {
-				cout << "Error deleting file Cart.txt" << endl;
-			}
-			
-			// Rename Temp.txt to Cart.txt
-			if (rename("Temp.txt", "Cart.txt") != 0) {
-				cout << "Error renaming file Temp.txt" << endl;
-			}
-		}
-	}
-
+        loggedInUsername = username;
+    }
 
 	void addPackagetoCart()
 	{
-		string username;
-		cout << "\n\t\t\tEnter your username: ";
-		cin >> username;
+		string username = loggedInUsername;
+		string departureDate;
+
+    	cout << "\n\t\t\tEnter the departure date (YYYY-MM-DD): ";
+    	cin >> departureDate;
 
 		string cartFileName = "Cart.txt";
 		ofstream cartFile(cartFileName, ios::app); // Use ios::app to append to the file
@@ -611,7 +473,7 @@ class User
 				}
 			} while (!validInput);
 
-			cartFile << "Username: " << username << ", Package chosen: " << packageDetailsList[packageNumber - 1] << endl;
+			cartFile << "Username: " << username << ", Package chosen: " << packageDetailsList[packageNumber - 1] << ", Departure date: " << departureDate << endl;
         	cartFile.close();
 
 			cout << "\n\t\t\tPackage added to the cart file successfully!\n";
@@ -619,6 +481,159 @@ class User
 			system("pause");
 		}
 	}
+
+	void UviewCart()
+	{
+		system("CLS");
+		cout << "\t\t\t_______________________________________________________________\n\n\n";
+		cout << "\t\t\t++++++++++++++++++++    VIEW CART    ++++++++++++++++++++++++\n\n\n";
+		cout << "\t\t\t________________________________________________________________\n\n";
+
+		ifstream cartFile("Cart.txt");
+		if (!cartFile.is_open())
+		{
+			cout << "\t\t\tNo cart information available.\n";
+		}
+		else
+		{
+			string username;
+			cout << "\t\t\tEnter your username: ";
+			cin >> username;
+			bool found = false;
+
+			cout << "\t\t\tList of Packages in Your Cart:\n\n";
+
+			string line;
+			int count = 0;
+			while (getline(cartFile, line))
+			{
+				system("CLS");
+				cout << "\t\t\t_______________________________________________________________\n\n\n";
+				cout << "\t\t\t++++++++++++++++++++    VIEW CART    ++++++++++++++++++++++++\n\n\n";
+				cout << "\t\t\t________________________________________________________________\n\n";
+
+				// Check if the line contains the user's username
+				if (line.find("Username: " + username) != string::npos)
+				{
+					found = true;
+					count++;
+
+					// Extract the package details from the line
+					size_t pos = line.find("Package chosen: ");
+					if (pos != string::npos)
+					{
+						string packageDetails = line.substr(pos + 16); // Length of "Package chosen: "
+						stringstream ss(packageDetails);
+						string packageName, priceStr, daysStr, nightsStr;
+
+						getline(ss, packageName, ',');
+						getline(ss, priceStr, ',');
+						getline(ss, daysStr, ',');
+						getline(ss, nightsStr, ',');
+
+						double price = stod(priceStr);
+						int days = stoi(daysStr);
+						int nights = stoi(nightsStr);
+
+						cout << fixed << setprecision(2);
+						cout << "\t\t\t| " << setw(3) << right << count << ". " << setw(20) << left << packageName << "  | " << setw(2) << right << "RM" << setw(10) << left << price << " | " << setw(2) << days << " days, " << setw(2) << nights << " nights |\n";
+						cout << endl << endl;
+
+						int pc;
+						cartFile.close();
+						
+						do
+						{
+							cout << "\t\t\t|    Payment              ( Choose '1' )                     |\n";     
+							cout << "\t\t\t|    Delete Cart          ( Choose '2' )                     |\n";
+							cout << "\t\t\t|    Back to Main         ( Choose '3' )                     |\n"<<endl;
+
+							
+							cout<<"\t\t\tEnter your choose : ";
+							cin>>pc;
+
+							switch(pc)
+							{
+								case 1: pay(username, packageName, price, days, nights);
+										break;
+								
+								case 3: system("CLS");
+								 		break;
+
+								default: system("CLS");
+										cout << "\n\t\t\t\t   Please select the correct options given!\n\n" << endl;
+							}
+
+						}while(pc == 3);
+					}
+				}
+			}
+
+			if (!found)
+			{
+				cout << "\t\t\tYou have not added anything to your cart.\n";
+			}
+
+		}
+
+		system("pause");
+
+	}
+
+	void pay(const string& username, const string& packageName, double price, int days, int nights) 
+	{
+		system("CLS");
+		cout << "\t\t\t_______________________________________________________________\n\n\n";
+		cout << "\t\t\t++++++++++++++++++++    PAYMENT    ++++++++++++++++++++++++\n\n\n";
+		cout << "\t\t\t________________________________________________________________\n\n";
+
+		// Display receipt
+		cout << "\t\t\tUsername: " << username << endl;
+		cout << "\t\t\tPackage: " << packageName << endl;
+		cout << "\t\t\tPrice: RM" << price << endl;
+		cout << "\t\t\tDuration: " << days << " days, " << nights << " nights" << endl;
+
+		ifstream inFile("Cart.txt"); // Open Cart.txt for reading
+		ofstream tempFile("Temp.txt"); 
+
+		string line;
+		bool found = false; 
+
+
+		while (getline(inFile, line)) {
+			// Check if the line contains the user's username
+			if (line.find("Username: " + username) == string::npos) 
+			{
+				tempFile << line << endl; 
+			} 
+			else 
+			{
+				found = true;
+			}
+		}
+
+		inFile.close(); 
+		tempFile.close();
+
+		if (!found) 
+		{
+			cout << "Username not found in the cart." << endl;
+		} 
+		else 
+		{
+			// Remove the original Cart.txt file
+			if (remove("Cart.txt") != 0) 
+			{
+				cout << "Error deleting file Cart.txt" << endl;
+			}
+			
+			// Rename Temp.txt to Cart.txt
+			if (rename("Temp.txt", "Cart.txt") != 0) 
+			{
+				cout << "Error renaming file Temp.txt" << endl;
+			}
+		}
+	}	
 
 };
 
@@ -868,6 +883,7 @@ class LogRegPage
 	
 	    if (count == 1)
 	    {
+			u.setLoggedInUsername(username);
 	        cout << username << "\nLogin Successfully!\n\n\n";
 			u.UserHomepage();
 	    }
