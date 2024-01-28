@@ -1,9 +1,5 @@
-Pulau Langkawi,299.000000,3,2
-Abc,999.000000,3,2
-Genting Highland,288.000000,4,3
-B,222.000000,2,1
-H,222.000000,4,3
-Mexico,1999.000000,9,8
-s,0.000000,0,10
-New Name,999.000000,8,7
-London,9999.000000,10,9
+Pulau Langkawi,999.00,6,5
+Pulau Ketam,399.00,4,3
+Genting Higlands,499.00,5,4
+Cameron Highlands,439.00,4,3
+Sabah Tour,1999.00,6,5

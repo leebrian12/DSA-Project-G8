@@ -78,6 +78,9 @@ class Admin
 		
 		cout << "\t\t\t Enter Package Price  : ";
 	    cin >> price;
+
+		stringstream formattedPrice;
+    	formattedPrice << fixed << setprecision(2) << price;
 	
 	    cout << "\t\t\t Enter Number of Days : ";
 	    cin >> days;
@@ -85,7 +88,7 @@ class Admin
 	    cout << "\t\t\t Enter Number of Nights: ";
 	    cin >> nights;
 		
-    	string packageDetails = packageName + "," + to_string(price) + "," + to_string(days) + "," + to_string(nights);
+    	string packageDetails = packageName + "," + formattedPrice.str() + "," + to_string(days) + "," + to_string(nights);
     	
     	packages.push(packageDetails);
 
@@ -372,6 +375,19 @@ class User
 
 	void addPackagetoCart()
 	{
+		string username;
+		cout << "\n\t\t\tEnter your username: ";
+		cin >> username;
+
+		string cartFileName = "Cart.txt";
+		ofstream cartFile(cartFileName, ios::app); // Use ios::app to append to the file
+
+		if (!cartFile.is_open())
+		{
+			cout << "\n\t\t\tError: Unable to open the cart file for writing.\n";
+			return;
+		}
+
 		ifstream packageFile("Packages.txt");
 
 		if (!packageFile.is_open())
@@ -440,23 +456,10 @@ class User
 				}
 			} while (!validInput);
 
-			cout << "\n\t\t\tEnter the name of the file to store the selected package: ";
-			string fileName;
-			cin.ignore(); 
-			getline(cin, fileName);
+			cartFile << "Username: " << username << ", Package chosen: " << packageDetailsList[packageNumber - 1] << endl;
+        	cartFile.close();
 
-			ofstream outputFile(fileName);
-
-			if (outputFile.is_open())
-			{
-				outputFile << packageDetailsList[packageNumber - 1] << endl;
-				outputFile.close();
-				cout << "\n\t\t\tPackage added to the file successfully!\n";
-			}
-			else
-			{
-				cout << "\n\t\t\tError: Unable to open the file for writing.\n";
-			}
+			cout << "\n\t\t\tPackage added to the cart file successfully!\n";
 
 			system("pause");
 		}
@@ -736,7 +739,6 @@ class LogRegPage
 		cout << "\n\n\t\t\t\t\tRegistration sucessfully! \n";
     }
 };
-
 
 
 int main() 
