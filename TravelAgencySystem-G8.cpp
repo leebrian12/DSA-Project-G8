@@ -594,7 +594,7 @@ class LogRegPage
 	            {
 	                break; 
 	            }
-	        }
+	        } 
 	
 	    } while (count != 1);
 	
