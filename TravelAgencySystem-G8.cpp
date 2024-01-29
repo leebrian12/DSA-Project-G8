@@ -496,9 +496,7 @@ class User
 		}
 		else
 		{
-			string username;
-			cout << "\t\t\tEnter your username: ";
-			cin >> username;
+			string username = loggedInUsername;
 			bool found = false;
 
 			cout << "\t\t\tList of Packages in Your Cart:\n\n";
@@ -564,7 +562,7 @@ class User
 										cout << "\n\t\t\t\t   Please select the correct options given!\n\n" << endl;
 							}
 
-						}while(pc == 3);
+						}while(pc != 3);
 					}
 				}
 			}
@@ -633,6 +631,8 @@ class User
 				cout << "Error renaming file Temp.txt" << endl;
 			}
 		}
+
+		system("pause");
 	}	
 
 };
