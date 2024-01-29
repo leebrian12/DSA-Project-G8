@@ -236,7 +236,7 @@ class Admin
 
 	}
 
-	void performPackageSearch(const vector<string> &packageDetailsList)  // Binary Search Algorithm
+	void performPackageSearch(const vector<string> &packageDetailsList) 
 	{
 		string target;
 		cout << "\t\t\t Input the package name to search : ";
@@ -246,19 +246,37 @@ class Admin
 		// Convert target to lowercase for case-insensitive search
 		transform(target.begin(), target.end(), target.begin(), ::tolower);
 
-		// Perform binary search
-		int position = binarySearchByName(packageDetailsList, target);
+		vector<int> foundIndices; // Stores indices of matching packages
+
+		// Iterate through each package and search for the keyword
+		for (size_t i = 0; i < packageDetailsList.size(); ++i) 
+		{
+			string packageName = getPackageName(packageDetailsList[i]);
+
+			// Convert package name to lowercase for case-insensitive search
+			transform(packageName.begin(), packageName.end(), packageName.begin(), ::tolower);
+
+			// Check if the target is a substring of the package name
+			if (packageName.find(target) != string::npos) 
+			{
+				foundIndices.push_back(i);
+			}
+		}
 
 		// Output result
-		if (position != -1) 
+		if (!foundIndices.empty()) 
 		{
-			cout << "\n\t\t\tPackage found at position " << (position+1)<<" : " << endl;
-			displayPackageDetails(packageDetailsList[position]);
-			cout<<endl<<endl;
+			cout << "\n\t\t\tPackages found:\n";
+			for (size_t i = 0; i < foundIndices.size(); ++i) 
+			{
+				cout << "\n\t\t\tPackage at position " << (foundIndices[i] + 1) << ":" << endl;
+				displayPackageDetails(packageDetailsList[foundIndices[i]]);
+				cout << endl;
+			}
 		} 
 		else 
 		{
-			cout << "\t\t\tPackage not found" << endl;
+			cout << "\t\t\tNo packages found matching the keyword." << endl;
 		}
 	}
 
@@ -275,7 +293,7 @@ class Admin
 
 			// Convert package name to lowercase for case-insensitive search
 			transform(packageName.begin(), packageName.end(), packageName.begin(), ::tolower);
-
+			
 
 			if (packageName == target) 
 			{
