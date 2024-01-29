@@ -522,29 +522,36 @@ class User
 					{
 						string packageDetails = line.substr(pos + 16); // Length of "Package chosen: "
 						stringstream ss(packageDetails);
-						string packageName, priceStr, daysStr, nightsStr;
+						string packageName, priceStr, daysStr, nightsStr, departureDateStr;
 
 						getline(ss, packageName, ',');
 						getline(ss, priceStr, ',');
 						getline(ss, daysStr, ',');
 						getline(ss, nightsStr, ',');
 
+						// Extract departure date
+						getline(ss, departureDateStr, ',');
+						string departureDate = departureDateStr.substr(departureDateStr.find("Departure date: ") + 16);
+
 						double price = stod(priceStr);
 						int days = stoi(daysStr);
 						int nights = stoi(nightsStr);
 
 						cout << fixed << setprecision(2);
-						cout << "\t\t\t| " << setw(3) << right << count << ". " << setw(20) << left << packageName << "  | " << setw(2) << right << "RM" << setw(10) << left << price << " | " << setw(2) << days << " days, " << setw(2) << nights << " nights |\n";
-						cout << endl << endl;
+						cout << "\t\t\t| " << setw(3) << right << count << ". " << setw(20) << left << packageName << "  | " << setw(2) << right << "RM" << setw(10) << left << price << " | " << setw(2) << days << " days, " << setw(2) << nights << " nights| "  << endl;
+						cout << "\t\t\t|\t\t\t\t\t\t\t\t|" << endl;
+						cout << "\t\t\t|\t\t     Departure Date: " << departureDate << "\t\t\t|"<<endl;
+						cout << "\t\t\t|\t\t\t\t\t\t\t\t|" << endl;
 
-						int pc;
 						cartFile.close();
+						int pc;
+						
 						
 						do
 						{
-							cout << "\t\t\t|    Payment              ( Choose '1' )                     |\n";     
-							cout << "\t\t\t|    Delete Cart          ( Choose '2' )                     |\n";
-							cout << "\t\t\t|    Back to Main         ( Choose '3' )                     |\n"<<endl;
+							cout << "\t\t\t|    Payment              ( Choose '1' )                       \t|\n";     
+							cout << "\t\t\t|    Delete Cart          ( Choose '2' )                       \t|\n";
+							cout << "\t\t\t|    Back to Main         ( Choose '3' )                       \t|\n"<<endl;
 
 							
 							cout<<"\t\t\tEnter your choose : ";
@@ -552,7 +559,7 @@ class User
 
 							switch(pc)
 							{
-								case 1: pay(username, packageName, price, days, nights);
+								case 1: pay(username, packageName, price, days, nights, departureDateStr);
 										break;
 								
 								case 3: system("CLS");
@@ -578,7 +585,7 @@ class User
 
 	}
 
-	void pay(const string& username, const string& packageName, double price, int days, int nights) 
+	void pay(const string& username, const string& packageName, double price, int days, int nights , const string& departureDateStr) 
 	{
 		system("CLS");
 		cout << "\t\t\t_______________________________________________________________\n\n\n";
@@ -590,47 +597,67 @@ class User
 		cout << "\t\t\tPackage: " << packageName << endl;
 		cout << "\t\t\tPrice: RM" << price << endl;
 		cout << "\t\t\tDuration: " << days << " days, " << nights << " nights" << endl;
+		cout << "\t\t\tDeparture Date:" << departureDateStr << endl;
 
-		ifstream inFile("Cart.txt"); // Open Cart.txt for reading
-		ofstream tempFile("Temp.txt"); 
+		ifstream inFile("Cart.txt"); 
+		ofstream tempFile("Temp.txt");
 
 		string line;
-		bool found = false; 
-
+		bool found = false;
+		bool isEmpty = true; 
 
 		while (getline(inFile, line)) {
 			// Check if the line contains the user's username
-			if (line.find("Username: " + username) == string::npos) 
-			{
-				tempFile << line << endl; 
-			} 
-			else 
-			{
+			if (line.find("Username: " + username) == string::npos) {
+				tempFile << line << endl;
+			} else {
 				found = true;
+				isEmpty = false; // Cart is not empty
 			}
 		}
 
-		inFile.close(); 
+		inFile.close();
 		tempFile.close();
 
-		if (!found) 
-		{
+		if (isEmpty) {
+			system("CLS");
+			cout << "Your cart is empty." << endl;
+		} else if (!found) {
+			system("CLS");
 			cout << "Username not found in the cart." << endl;
-		} 
-		else 
-		{
+		} else {
 			// Remove the original Cart.txt file
-			if (remove("Cart.txt") != 0) 
-			{
+			if (remove("Cart.txt") != 0) {
 				cout << "Error deleting file Cart.txt" << endl;
 			}
-			
+
 			// Rename Temp.txt to Cart.txt
-			if (rename("Temp.txt", "Cart.txt") != 0) 
-			{
+			if (rename("Temp.txt", "Cart.txt") != 0) {
 				cout << "Error renaming file Temp.txt" << endl;
 			}
 		}
+
+		
+
+		// Open file for receipt
+		ofstream userFile(username + " receipt.txt");
+		if (!userFile.is_open()) {
+			cerr << "Error opening file for writing." << endl;
+			return;
+		}
+
+		// Write payment details into the file
+		userFile << "\t\t\t_______________________________________________________________\n\n\n";
+		userFile << "\t\t\t++++++++++++++++++++    PAYMENT    ++++++++++++++++++++++++\n\n\n";
+		userFile << "\t\t\t________________________________________________________________\n\n";
+		userFile << "\t\t\tUsername: " << username << endl;
+		userFile << "\t\t\tPackage: " << packageName << endl;
+		userFile << "\t\t\tPrice: RM" << price << endl;
+		userFile << "\t\t\tDuration: " << days << " days, " << nights << " nights" << endl;
+		userFile << "\t\t\tDeparture Date: " << departureDateStr << endl;
+
+		userFile.close();
+
 
 		system("pause");
 	}	
