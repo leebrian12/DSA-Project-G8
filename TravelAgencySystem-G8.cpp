@@ -705,9 +705,8 @@ class User
 			cout << "\t\t\t|    Add to cart          ( Choose '1' )                     |\n";     
 			cout << "\t\t\t|    View packages        ( Choose '2' )                     |\n";
 			cout << "\t\t\t|    View Cart            ( Choose '3' )                     |\n";
-			cout << "\t\t\t|    Edit cart    	  ( Choose '4' )                     |\n";
-			cout << "\t\t\t|    Back to Home Page    ( Choose '5' )                     |\n";
-			cout << "\t\t\t|    Exit                 ( Choose '6' )                     |\n";
+			cout << "\t\t\t|    Back to Home Page    ( Choose '4' )                     |\n";
+			cout << "\t\t\t|    Exit                 ( Choose '5' )                     |\n";
 			cout << "\n\t\t        Please enter your choice : ";
 			cin >> choice;
 			cout << endl;
@@ -724,13 +723,10 @@ class User
 				case 3: UviewCart();
 						break;
 
-				case 4:	editPackage();
-				 		break;
-
-				case 5: system("CLS");
+				case 4: system("CLS");
                     	break;
 				
-				case 6: cout << "\t\t\tExiting the Travel Agency System. Thank you for using our services!\n\n";
+				case 5: cout << "\t\t\tExiting the Travel Agency System. Thank you for using our services!\n\n";
                         exit(0);
 
 				default: system("CLS");
@@ -738,7 +734,7 @@ class User
 
 			}
 
-		} while (choice != 4);
+		} while (choice != 5);
 			
 	}
 
