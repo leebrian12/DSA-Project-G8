@@ -248,35 +248,47 @@ class Admin
 
 		vector<int> foundIndices; // Stores indices of matching packages
 
-		// Iterate through each package and search for the keyword
-		for (size_t i = 0; i < packageDetailsList.size(); ++i) 
-		{
-			string packageName = getPackageName(packageDetailsList[i]);
+		// Check if the package list is sorted alphabetically by name
+		bool isSortedByName = true;
+		
+		for (size_t i = 1; i < packageDetailsList.size(); ++i) {
+			if (getPackageName(packageDetailsList[i]) < getPackageName(packageDetailsList[i - 1])) {
+				isSortedByName = false;
+				break;
+			}
+		}
 
-			// Convert package name to lowercase for case-insensitive search
-			transform(packageName.begin(), packageName.end(), packageName.begin(), ::tolower);
+		// Perform binary search if the list is sorted, otherwise use linear search
+		if (isSortedByName) {
+			int foundIndex = binarySearchByName(packageDetailsList, target);
+			if (foundIndex != -1) {
+				foundIndices.push_back(foundIndex);
+			}
+		} else {
+			// Iterate through each package and search for the keyword
+			for (size_t i = 0; i < packageDetailsList.size(); ++i) {
+				string packageName = getPackageName(packageDetailsList[i]);
 
-			// Check if the target is a substring of the package name
-			if (packageName.find(target) != string::npos) 
-			{
-				foundIndices.push_back(i);
+				// Convert package name to lowercase for case-insensitive search
+				transform(packageName.begin(), packageName.end(), packageName.begin(), ::tolower);
+
+				// Check if the target is a substring of the package name
+				if (packageName.find(target) != string::npos) {
+					foundIndices.push_back(i);
+				}
 			}
 		}
 
 		// Output result
-		if (!foundIndices.empty()) 
-		{
+		if (!foundIndices.empty()) {
 			cout << "\n\t\t\tPackages found:\n";
-			for (size_t i = 0; i < foundIndices.size(); ++i) 
-			{
+			for (size_t i = 0; i < foundIndices.size(); ++i) {
 				cout << "\n\t\t\tPackage at position " << (foundIndices[i] + 1) << ":" << endl;
 				displayPackageDetails(packageDetailsList[foundIndices[i]]);
 				cout << endl;
 			}
-		} 
-		else 
-		{
-			cout << "\t\t\tNo packages found matching the keyword." << endl;
+		} else {
+			cout << "\t\t\t No packages found, please enter again." << endl;
 		}
 	}
 
@@ -284,34 +296,45 @@ class Admin
 	{
 		int first = 0;
 		int last = packageDetailsList.size() - 1;
-		int found = -1; // Initialize found position to -1 (not found)
+		vector<int> foundIndices; // Stores indices of matching packages
 
-		while (first <= last) 
-		{
+		while (first <= last) {
 			int mid = (first + last) / 2;
 			string packageName = getPackageName(packageDetailsList[mid]);
 
 			// Convert package name to lowercase for case-insensitive search
 			transform(packageName.begin(), packageName.end(), packageName.begin(), ::tolower);
-			
 
-			if (packageName == target) 
-			{
-				found = mid;
-				break;
-			} 
-			else if (packageName < target) 
-			{
+			// Check if the target is a substring of the package name
+			if (packageName.find(target) != string::npos) {
+				foundIndices.push_back(mid);
+			}
+
+			// Continue searching in the lower or upper half based on comparison
+			if (packageName < target) {
 				first = mid + 1;
-			} 
-			else 
-			{
+			} else {
 				last = mid - 1;
 			}
 		}
 
-		return found;
+		// Output result
+		if (!foundIndices.empty()) {
+			// Display found packages
+			cout << "\n\t\t\tPackages found:\n";
+			for (size_t i = 0; i < foundIndices.size(); ++i) {
+				cout << "\n\t\t\tPackage at position " << (foundIndices[i] + 1) << ":" << endl;
+				displayPackageDetails(packageDetailsList[foundIndices[i]]);
+				cout << endl;
+			}
+			// Return the index of the first matching package
+			return foundIndices[0];
+		} else {
+			// No package found
+			return -1;
+		}
 	}
+
 
 	string getPackageName(const string &packageDetails) 
 	{
