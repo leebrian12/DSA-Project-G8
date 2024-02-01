@@ -910,7 +910,8 @@ class User
 						{
 							cout << "\t\t\t|    Payment              ( Choose '1' )                       \t|\n";     
 							cout << "\t\t\t|    Delete Cart          ( Choose '2' )                       \t|\n";
-							cout << "\t\t\t|    Back to Main         ( Choose '3' )                       \t|\n"<<endl;
+							cout << "\t\t\t|    Edit Date            ( Choose '3' )                       \t|\n";
+							cout << "\t\t\t|    Back to Main         ( Choose '4' )                       \t|\n"<<endl;
 
 							
 							cout<<"\t\t\tEnter your choose : ";
@@ -922,15 +923,15 @@ class User
 										break;
 								case 2: deleteCart(username);
 										break;
-
-								case 3: system("CLS");
+								case 3: editP(username);
+										break;
+								case 4: system("CLS");
 								 		break;
-
 								default: system("CLS");
 										cout << "\n\t\t\t\t   Please select the correct options given!\n\n" << endl;
 							}
 
-						}while(pc != 3);
+						}while(pc != 4);
 					}
 				}
 			}
@@ -945,6 +946,64 @@ class User
 		system("pause");
 
 	}
+
+	void editP(const string& username) {
+		ifstream inputFile("Cart.txt");
+		ofstream tempFile("temp.txt");
+
+		if (!inputFile.is_open() || !tempFile.is_open()) {
+			cerr << "Error: Unable to open file for editing." << endl;
+			return;
+		}
+
+		queue<string> linesQueue; // Queue to store lines from the input file
+
+		string line;
+		bool found = false;
+
+		while (getline(inputFile, line)) {
+			if (line.find("Username: " + username) != string::npos) {
+				found = true;
+				cout << "Enter the new departure date for the package (YYYY-MM-DD): ";
+				string newDepartureDate;
+				cin >> newDepartureDate;
+
+				size_t pos = line.find("Departure date: ");
+				if (pos != string::npos) {
+					// Update the departure date
+					stringstream newLine;
+					newLine << line.substr(0, pos + 16) << newDepartureDate;
+					linesQueue.push(newLine.str());
+				} else {
+					// If no departure date is found, push the line unchanged
+					linesQueue.push(line);
+				}
+			} else {
+				linesQueue.push(line); // Push the line to the queue unchanged
+			}
+		}
+
+		inputFile.close();
+
+		// Rewrite the file with updated information
+		while (!linesQueue.empty()) {
+			tempFile << linesQueue.front() << endl; // Write each line from the queue to the temporary file
+			linesQueue.pop();
+		}
+
+		tempFile.close();
+
+		// Rename temp file to original file
+		remove("Cart.txt");
+		rename("temp.txt", "Cart.txt");
+
+		if (!found) {
+			cout << "No package found for the user " << username << endl;
+		} else {
+			cout << "Departure date updated successfully." << endl;
+		}
+	}
+
 
 	void deleteCart(const string& username) {
 		ifstream inFile("Cart.txt");
