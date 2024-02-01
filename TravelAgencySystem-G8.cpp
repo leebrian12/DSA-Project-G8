@@ -569,64 +569,6 @@ class User
 
 	public:
 
-	
-	void deletePackageFromCart(int packageNumber) {
-        // Get the logged-in username
-        string username = loggedInUsername;
-
-        ifstream cartFile("Cart.txt");
-        if (!cartFile.is_open()) {
-            cout << "Error: Unable to open the cart file." << endl;
-            return;
-        }
-
-        ofstream tempFile("Temp.txt");
-        if (!tempFile.is_open()) {
-            cout << "Error: Unable to create temporary file." << endl;
-            cartFile.close();
-            return;
-        }
-
-        string line;
-        int lineNumber = 0;
-        bool foundPackage = false;
-
-        while (getline(cartFile, line)) {
-            lineNumber++;
-            // Check if the line contains the user's username
-            if (line.find("Username: " + username) != string::npos) {
-                tempFile << line << endl; // Write username to Temp.txt
-
-                // Output the package details
-                getline(cartFile, line);
-                lineNumber++;
-                if (lineNumber != packageNumber) {
-                    tempFile << line << endl; // Write package details to Temp.txt
-                } else {
-                    foundPackage = true;
-                }
-            } else {
-                tempFile << line << endl; // Write other lines to Temp.txt
-            }
-        }
-
-        cartFile.close();
-        tempFile.close();
-
-        if (!foundPackage) {
-            cout << "Error: Package number " << packageNumber << " not found in the cart." << endl;
-            remove("Temp.txt"); // Remove the temporary file
-            return;
-        }
-
-        // Replace the original Cart.txt file with Temp.txt
-        if (remove("Cart.txt") != 0 || rename("Temp.txt", "Cart.txt") != 0) {
-            cout << "Error updating cart file." << endl;
-            return;
-        }
-
-        cout << "Package number " << packageNumber << " deleted from the cart successfully." << endl;
-    }
 		
 	void editPackage() {
 		// Get the logged-in username
@@ -719,33 +661,33 @@ class User
 		}
 	}
 
-void displayUserItems(const string& username) {
-    ifstream cartFile("Cart.txt");
+	void displayUserItems(const string& username) {
+		ifstream cartFile("Cart.txt");
 
-    if (!cartFile.is_open()) {
-        cout << "Error: Unable to open the cart file." << endl;
-        return;
-    }
+		if (!cartFile.is_open()) {
+			cout << "Error: Unable to open the cart file." << endl;
+			return;
+		}
 
-    bool foundUser = false;
-    int count = 0; // Counter for numbered bullets
+		bool foundUser = false;
+		int count = 0; // Counter for numbered bullets
 
-    string line;
-    while (getline(cartFile, line)) {
-        // Check if the line contains the user's username
-        if (line.find("Username: " + username) != string::npos) {
-            foundUser = true;
-            ++count; // Increment count when encountering a line with the username
-            cout << "\t\t\t"<<count << ". " << line << endl; // Output with numbered bullet
-        }
-    }
+		string line;
+		while (getline(cartFile, line)) {
+			// Check if the line contains the user's username
+			if (line.find("Username: " + username) != string::npos) {
+				foundUser = true;
+				++count; // Increment count when encountering a line with the username
+				cout << "\t\t\t"<<count << ". " << line << endl; // Output with numbered bullet
+			}
+		}
 
-    cartFile.close();
+		cartFile.close();
 
-    if (!foundUser) {
-        cout << "No items found for username: " << username << endl;
-    }
-}
+		if (!foundUser) {
+			cout << "No items found for username: " << username << endl;
+		}
+	}
 
 
 
@@ -978,16 +920,7 @@ void displayUserItems(const string& username) {
 							{
 								case 1: pay(username, packageName, price, days, nights, departureDateStr);
 										break;
-								case 2:
-										int deletePackageNumber;
-										cout << "Enter the package number to delete (0 to cancel): ";
-										cin >> deletePackageNumber;
-
-										if (deletePackageNumber == 0) {
-											cout << "Deletion canceled." << endl;
-										} else {
-											deletePackageFromCart(deletePackageNumber);
-										}
+								case 2: deleteCart(username);
 										break;
 
 								case 3: system("CLS");
@@ -1011,6 +944,51 @@ void displayUserItems(const string& username) {
 
 		system("pause");
 
+	}
+
+	void deleteCart(const string& username) {
+		ifstream inFile("Cart.txt");
+		ofstream outFile("temp.txt"); // Temporary file to write modified data
+
+		if (!inFile.is_open()) {
+			cout << "Error: Unable to open file." << endl;
+			return;
+		}
+
+		queue<string> linesQueue; // Queue to hold lines from the file
+
+		string line;
+		bool found = false;
+		while (getline(inFile, line)) {
+			linesQueue.push(line); // Push each line onto the queue
+		}
+
+		inFile.close(); // Close the file
+
+		while (!linesQueue.empty()) {
+			line = linesQueue.front(); // Get the front line from the queue
+			linesQueue.pop(); // Remove the front line from the queue
+
+			// Check if the line contains the user's username
+			if (line.find("Username: " + username) != string::npos) {
+				found = true;
+				continue; // Skip writing this line
+			}
+
+			outFile << line << endl; // Write the line to the temporary file
+		}
+
+		outFile.close(); // Close the temporary file
+
+		if (!found) {
+			cout << "User not found in cart." << endl;
+			remove("temp.txt"); // Remove temporary file
+		} else {
+			// Replace original file with modified contents
+			remove("Cart.txt");
+			rename("temp.txt", "Cart.txt");
+			cout << "Cart entry for user '" << username << "' deleted successfully." << endl;
+		}
 	}
 
 	void pay(const string& username, const string& packageName, double price, int days, int nights , const string& departureDateStr) 
