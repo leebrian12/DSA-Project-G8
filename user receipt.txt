@@ -10,4 +10,4 @@
 			Package: Genting Higlands
 			Price: RM499
 			Duration: 5 days, 4 nights
-			Departure Date:  Departure date: 2222-33-33
+			Departure Date:  Departure date: 2012=11=23

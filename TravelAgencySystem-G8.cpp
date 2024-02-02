@@ -1127,11 +1127,11 @@ class User
 		userFile << "\t\t\t_______________________________________________________________\n\n\n";
 		userFile << "\t\t\t++++++++++++++++++++    PAYMENT    ++++++++++++++++++++++++\n\n\n";
 		userFile << "\t\t\t________________________________________________________________\n\n";
-		userFile << "\t\t\tUsername: " << username << endl;
-		userFile << "\t\t\tPackage: " << packageName << endl;
-		userFile << "\t\t\tPrice: RM" << price << endl;
-		userFile << "\t\t\tDuration: " << days << " days, " << nights << " nights" << endl;
-		userFile << "\t\t\tDeparture Date: " << departureDateStr << endl;
+		userFile << "\t\t\tUsername\t\t: " << username << endl;
+		userFile << "\t\t\tPackage\t\t: " << packageName << endl;
+		userFile << "\t\t\tPrice\t\t\t: RM" << price << endl;
+		userFile << "\t\t\tDuration\t\t: " << days << " days, " << nights << " nights" << endl;
+		userFile << "\t\t\tDeparture Date\t: " << departureDateStr << endl;
 
 		userFile.close();
 
