@@ -228,6 +228,7 @@ class Admin
 			} while (choice != '2');
 		}
 		system("pause");
+		system("CLS");
 	}
 
 	// For edit and delete package
@@ -696,9 +697,11 @@ class User
 		Admin ad; 
 		int choice;
 
+		system("CLS");
+
 		do
 		{
-			system("CLS");
+			
 			cout << "\t\t\t_____________________________________________________________\n\n\n";
 			cout << "\t\t\t++++++++++++++++++++++    USER SITE   ++++++++++++++++++++++++\n\n\n";
 			cout << "\t\t\t_______________________    WELCOME USER   _______________________\n\n";
@@ -852,6 +855,7 @@ class User
 			cout << "\n\t\t\tPackage added to the cart file successfully!\n";
 
 			system("pause");
+			UserHomepage();
 		}
 	}
 
@@ -878,10 +882,7 @@ class User
 			int count = 0;
 			while (getline(cartFile, line))
 			{
-				system("CLS");
-				cout << "\t\t\t_______________________________________________________________\n\n\n";
-				cout << "\t\t\t++++++++++++++++++++    VIEW CART    ++++++++++++++++++++++++\n\n\n";
-				cout << "\t\t\t________________________________________________________________\n\n";
+				
 
 				// Check if the line contains the user's username
 				if (line.find("Username: " + username) != string::npos)
@@ -910,11 +911,7 @@ class User
 						int days = stoi(daysStr);
 						int nights = stoi(nightsStr);
 
-						cout << fixed << setprecision(2);
-						cout << "\t\t\t| " << setw(3) << right << count << ". " << setw(20) << left << packageName << "  | " << setw(2) << right << "RM" << setw(10) << left << price << " | " << setw(2) << days << " days, " << setw(2) << nights << " nights| "  << endl;
-						cout << "\t\t\t|\t\t\t\t\t\t\t\t|" << endl;
-						cout << "\t\t\t|\t\t     Departure Date: " << departureDate << "\t\t\t|"<<endl;
-						cout << "\t\t\t|\t\t\t\t\t\t\t\t|" << endl;
+						
 
 						cartFile.close();
 						int pc;
@@ -922,6 +919,15 @@ class User
 						
 						do
 						{
+							system("CLS");
+							cout << "\t\t\t_______________________________________________________________\n\n\n";
+							cout << "\t\t\t++++++++++++++++++++    VIEW CART    ++++++++++++++++++++++++\n\n\n";
+							cout << "\t\t\t________________________________________________________________\n\n";
+							cout << fixed << setprecision(2);
+							cout << "\t\t\t| " << setw(3) << right << count << ". " << setw(20) << left << packageName << "  | " << setw(2) << right << "RM" << setw(10) << left << price << " | " << setw(2) << days << " days, " << setw(2) << nights << " nights| "  << endl;
+							cout << "\t\t\t|\t\t\t\t\t\t\t\t|" << endl;
+							cout << "\t\t\t|\t\t     Departure Date: " << departureDate << "\t\t\t|"<<endl;
+							cout << "\t\t\t|\t\t\t\t\t\t\t\t|" << endl;
 							cout << "\t\t\t|    Payment              ( Choose '1' )                       \t|\n";     
 							cout << "\t\t\t|    Delete Cart          ( Choose '2' )                       \t|\n";
 							cout << "\t\t\t|    Edit Date            ( Choose '3' )                       \t|\n";
@@ -958,6 +964,7 @@ class User
 		}
 
 		system("pause");
+		system("CLS");
 
 	}
 
@@ -978,7 +985,7 @@ class User
 		while (getline(inputFile, line)) {
 			if (line.find("Username: " + username) != string::npos) {
 				found = true;
-				cout << "Enter the new departure date for the package (YYYY-MM-DD): ";
+				cout << "\t\t\tEnter the new departure date (YYYY-MM-DD): ";
 				string newDepartureDate;
 				cin >> newDepartureDate;
 
@@ -1016,6 +1023,8 @@ class User
 		} else {
 			cout << "Departure date updated successfully." << endl;
 		}
+
+		UviewCart();
 	}
 
 
@@ -1062,6 +1071,8 @@ class User
 			rename("temp.txt", "Cart.txt");
 			cout << "Cart entry for user '" << username << "' deleted successfully." << endl;
 		}
+
+		UviewCart();
 	}
 
 	void pay(const string& username, const string& packageName, double price, int days, int nights , const string& departureDateStr) 
