@@ -927,6 +927,8 @@ class User
 								case 1: pay(username, packageName, price, days, nights, departureDateStr);
 										break;
 								case 2: deleteCart(username);
+										UserHomepage();
+										exit(0);
 										break;
 								case 3: editP(username);
 										break;
@@ -1059,7 +1061,7 @@ class User
 
 		UviewCart();
 	}
-2
+
 	void pay(const string& username, const string& packageName, double price, int days, int nights , const string& departureDateStr) 
 	{
 		system("CLS");
