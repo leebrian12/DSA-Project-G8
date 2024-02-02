@@ -6,8 +6,8 @@
 
 			________________________________________________________________
 
-			Username: user
-			Package: Genting Higlands
-			Price: RM499
-			Duration: 5 days, 4 nights
-			Departure Date:  Departure date: 2012=11=23
+			Username		: user
+			Package			: Cameron Highlands
+			Price			: RM439
+			Duration		: 4 days, 3 nights
+			Departure Date	:  Departure date: 2024-5-20

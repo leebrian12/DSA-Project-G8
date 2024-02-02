@@ -258,17 +258,17 @@ class Admin
 			if (count == index - 1) {
 				Package& pack = packages.front();
 
-				cout << "\nEnter new location: ";
+				cout << "\n\t\t\tEnter new location: ";
 				cin.ignore();
 				getline(cin, pack.location);
 
-				cout << "\nEnter new price (format must be RM XX.XX): ";
+				cout << "\n\t\t\tEnter new price (format must be RM XX.XX): ";
 				cin >> pack.price;
 
-				cout << "\nEnter new day: ";
+				cout << "\n\t\t\tEnter new day: ";
 				cin >> pack.day;
 
-				cout << "\nEnter new night: ";
+				cout << "\n\t\t\tEnter new night: ";
 				cin >> pack.night;
 
 			}
@@ -356,7 +356,7 @@ class Admin
 		int count = 1;
 
 		cout << "\t\t\t_______________________________________________________________\n\n\n";
-		cout << "\t\t\t++++++++++++++++++++   Delete PACKAGES  +++++++++++++++++++++++\n\n\n";
+		cout << "\t\t\t++++++++++++++++++++   Delete PACKAGES  +++++++++++++++++++++++\n\n\n";S
 		cout << "\t\t\t________________________________________________________________\n\n";
 
 		while (getline(file, line)) {
@@ -810,7 +810,7 @@ class User
 							cout << "\t\t\t|    Back to Main         ( Choose '4' )                       \t|\n"<<endl;
 
 							
-							cout<<"\t\t\tEnter your choose : ";
+							cout<<"\t\t\tEnter your choice : ";
 							cin>>pc;
 
 							switch(pc)
@@ -919,7 +919,7 @@ class User
 							cout << "\t\t\t|    Back to Main         ( Choose '4' )                       \t|\n"<<endl;
 
 							
-							cout<<"\t\t\tEnter your choose : ";
+							cout<<"\t\t\tEnter your choice : ";
 							cin>>pc;
 
 							switch(pc)
@@ -1128,7 +1128,7 @@ class User
 		userFile << "\t\t\t++++++++++++++++++++    PAYMENT    ++++++++++++++++++++++++\n\n\n";
 		userFile << "\t\t\t________________________________________________________________\n\n";
 		userFile << "\t\t\tUsername\t\t: " << username << endl;
-		userFile << "\t\t\tPackage\t\t: " << packageName << endl;
+		userFile << "\t\t\tPackage\t\t\t: " << packageName << endl;
 		userFile << "\t\t\tPrice\t\t\t: RM" << price << endl;
 		userFile << "\t\t\tDuration\t\t: " << days << " days, " << nights << " nights" << endl;
 		userFile << "\t\t\tDeparture Date\t: " << departureDateStr << endl;

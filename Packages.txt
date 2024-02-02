@@ -1,4 +1,50 @@
-Pulau Penang,1999,5,4
-Genting Higlands,499,5,4
+Pulau Pinang,599,9,8
+Genting Highlands,499,5,4
 Cameron Highlands,439,4,3
-Sabah Tour,1999,6,5
+Borneo Sabah,2000,7,6
+Kuala Lumpur,488,3,2
+Pulau Tioman,688,4,3
+Desaru Beach Getaway,459,4,3
+Pulau Pangkor Relaxation Retreat,569,4,3
+Port Dickson Beach Holiday,439,3,2
+Pulau Kapas Relaxation,539,4,3
+Putrajaya Exploration,389,3,2
+Kuantan Beach Break,499,4,3
+Pulau Redang Scuba Diving Package,799,6,5
+Perak Cave Temple Exploration,419,3,2
+Pulau Sibu Snorkeling Adventure,579,5,4
+Cameron Highlands Tea Plantation Visit,489,4,3
+Langkawi Sunset Cruise,549,4,3
+Pulau Tenggol Diving Safari,669,5,4
+Pulau Kapas Kayaking Adventure,519,4,3
+Johor Bahru Theme Park Getaway,499,4,3
+Penang Hill Cultural Experience,549,4,3
+Kuala Lumpur Chinatown Food Tour,459,3,2
+Tioman Island Yoga Retreat,629,5,4
+Kota Kinabalu Island Hopping,699,5,4
+Langkawi Geopark Discovery,579,5,4
+Borneo Rainforest Canopy Walk,759,6,5
+Melaka River Cruise and Heritage Walk,489,4,3
+Genting Highlands Shopping Extravaganza,529,4,3
+Pulau Lang Tengah Snorkeling Escape,639,5,4
+Kuala Lumpur Eco Park Adventure,499,4,3
+Penang Penangite Culinary Tour,469,3,2
+Johor Bahru Night Safari,519,4,3
+Langkawi Mangrove Kayaking,589,5,4
+Cameron Highlands Butterfly Farm Visit,449,3,2
+Pulau Pangkor Fishing Expedition,579,5,4
+Kuala Lumpur Batik Art Workshop,439,3,2
+Labuan Water Village Experience,499,4,3
+Kinabalu Park Nature Trail,619,5,4
+Penang Ghost Tour,459,3,2
+Kuala Lumpur Helicopter City Tour,899,7,6
+Kuching Riverfront Stroll,419,3,2
+Pulau Tiga Survivor Island Adventure,729,6,5
+Langkawi Skydiving Experience,999,8,7
+Ipoh Heritage Walk,479,3,2
+Sarawak Cultural Village Immersion,649,5,4
+Cameron Highlands Strawberry Farm Stay,539,4,3
+Pulau Gemia Luxury Resort Retreat,789,6,5
+Kuala Lumpur Trishaw Ride,429,3,2
+Penang National Park Camping Expedition,629,5,4
+Bintulu Wildlife Safari,679,5,4
