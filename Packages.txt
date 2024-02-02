@@ -1,5 +1,4 @@
-Pulau Langkawi,999,6,5
-Pulau Ketam,399,4,3
+Pulau Penang,1999,5,4
 Genting Higlands,499,5,4
 Cameron Highlands,439,4,3
 Sabah Tour,1999,6,5
