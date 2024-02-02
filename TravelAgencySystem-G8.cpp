@@ -748,6 +748,24 @@ class User
 		string username = loggedInUsername;
 		string departureDate;
 
+		ifstream existingCart("Cart.txt");
+
+    	if (existingCart.is_open())
+		{
+			string line;
+			while (getline(existingCart, line))
+			{
+				// Assuming the format of each line in Cart.txt is "Username: <username>, Package chosen: <package>, Departure date: <date>"
+				if (line.find("Username: " + username) != string::npos)
+				{
+					cout << "\n\t\t\tYou already have a package in your cart. Cannot add another.\n";
+					existingCart.close();
+					return;
+				}
+			}
+			existingCart.close();
+		}
+
     	cout << "\n\t\t\tEnter the departure date (YYYY-MM-DD): ";
     	cin >> departureDate;
 
