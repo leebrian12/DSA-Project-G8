@@ -617,6 +617,26 @@ class User
 			
 	}
 
+	void selectionSort(vector<string>& arr)  // Selection Sort algorithm ( Sort with alphabetical )
+	{
+		int n = arr.size();
+		for (int i = 0; i < n - 1; i++) 
+		{
+			int minIndex = i;
+			for (int j = i + 1; j < n; j++) 
+			{
+				if (arr[j] < arr[minIndex]) 
+				{
+					minIndex = j;
+				}
+			}
+			if (minIndex != i) 
+			{
+				swap(arr[i], arr[minIndex]);
+			}
+		}
+	}
+
 	void setLoggedInUsername(const string& username) 
 	{
         loggedInUsername = username;
@@ -673,7 +693,9 @@ class User
 				packageDetailsList.push_back(packageDetails);
 			}
 
-			packageFile.close();
+			selectionSort(packageDetailsList);
+
+			
 
 			system("CLS");
 			cout << "\t\t\t_______________________________________________________________\n\n\n";
@@ -700,6 +722,8 @@ class User
 				cout << fixed << setprecision(2);
 				cout << "\t\t\t| " << setw(3) << right << i + 1 << ". " << setw(20) << left << packageName << "  | " << setw(2) << right << "RM" << setw(10) << left << price << " | " << setw(2) << days << " days, " << setw(2) << nights << " nights |\n";
 			}
+
+			packageFile.close();
 
 			int packageNumber;
         	bool validInput = false;

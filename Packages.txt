@@ -47,4 +47,4 @@ Cameron Highlands Strawberry Farm Stay,539,4,3
 Pulau Gemia Luxury Resort Retreat,789,6,5
 Kuala Lumpur Trishaw Ride,429,3,2
 Penang National Park Camping Expedition,629,5,4
-Bintulu Wildlife Safari,679,5,4
+Bintulu Wildlife Safari,679,5,4eff,23.00,3,3
